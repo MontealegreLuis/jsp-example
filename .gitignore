@@ -1,0 +1,4 @@
+/.env.sh
+/lib
+/out
+/docker-compose.yml
