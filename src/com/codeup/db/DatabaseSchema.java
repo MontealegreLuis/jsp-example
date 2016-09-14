@@ -3,6 +3,7 @@
  */
 package com.codeup.db;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,6 +28,28 @@ public class DatabaseSchema {
         statement.executeUpdate(
             String.format("DROP DATABASE IF EXISTS %s", databaseName)
         );
+        statement.close();
+    }
+
+    public void importFile(String sqlFile) throws IOException, SQLException {
+        String line;
+        StringBuilder queries = new StringBuilder();
+
+        BufferedReader reader = new BufferedReader(new FileReader(new File(sqlFile)));
+        while ((line = reader.readLine()) != null) {
+            queries.append(line).append(" ");
+        }
+        reader.close();
+
+        Statement statement = connection.createStatement();
+
+        String[] ddlStatements = queries.toString().split(";");
+        for (String query : ddlStatements) {
+            System.out.println(query);
+            if (!query.trim().isEmpty()) {
+                statement.executeUpdate(query);
+            }
+        }
         statement.close();
     }
 }

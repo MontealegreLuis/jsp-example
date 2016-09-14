@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class DatabaseApplication {
     public static void main(String[] args) {
         Connection connection = null;
+        String databaseName = "northwind";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -19,7 +20,10 @@ public class DatabaseApplication {
                 "codeup"
             );
             DatabaseSchema schema = new DatabaseSchema(connection);
-            schema.dropDatabase("test");
+            schema.dropDatabase(databaseName);
+            schema.createDatabase(databaseName);
+            connection.setSchema(databaseName);
+            schema.importFile("database/northwind.sql");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
