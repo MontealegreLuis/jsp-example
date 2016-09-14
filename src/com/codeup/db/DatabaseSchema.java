@@ -51,7 +51,6 @@ public class DatabaseSchema {
 
         String[] ddlStatements = queries.toString().split(";");
         for (String query : ddlStatements) {
-            System.out.println(query);
             if (!query.trim().isEmpty()) {
                 statement.executeUpdate(query);
             }
