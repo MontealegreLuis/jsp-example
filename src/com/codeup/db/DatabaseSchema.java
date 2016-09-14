@@ -31,6 +31,12 @@ public class DatabaseSchema {
         statement.close();
     }
 
+    public void useDatabase(String databaseName) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(String.format("USE %s", databaseName));
+        statement.close();
+    }
+
     public void importFile(String sqlFile) throws IOException, SQLException {
         String line;
         StringBuilder queries = new StringBuilder();

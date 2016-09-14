@@ -22,8 +22,9 @@ public class DatabaseApplication {
             DatabaseSchema schema = new DatabaseSchema(connection);
             schema.dropDatabase(databaseName);
             schema.createDatabase(databaseName);
-            connection.setSchema(databaseName);
             schema.importFile("database/northwind.sql");
+            schema.useDatabase(databaseName);
+            schema.importFile("database/northwind-data.sql");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
