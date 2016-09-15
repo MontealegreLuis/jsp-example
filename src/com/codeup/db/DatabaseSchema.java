@@ -57,4 +57,8 @@ public class DatabaseSchema {
         }
         statement.close();
     }
+
+    public Table table(String name) {
+        return new Table(name);
+    }
 }
