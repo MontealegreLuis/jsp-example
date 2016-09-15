@@ -26,11 +26,17 @@ public class DatabaseApplication {
                         importNorthwindDatabase(schema);
                         break;
                     default:
-                        Table table = schema.table("movies");
-                        table.increments("id");
-                        table.string("title", 300).makeRequired();
-                        table.integer("rating").defaultTo("0");
-                        System.out.println(table.toSQL());
+                        Table movies = schema.table("movies");
+                        movies.increments("id");
+                        movies.string("title", 300).makeRequired();
+                        movies.integer("rating").defaultTo("0");
+
+                        Table categories = schema.table("categories");
+                        categories.increments("id");
+                        categories.string("name").makeRequired();
+
+                        System.out.println(movies.toSQL());
+                        System.out.println(categories.toSQL());
                 }
                 System.out.println("Do you want to continue?");
             } while ("y".equalsIgnoreCase(scanner.next().trim()));
