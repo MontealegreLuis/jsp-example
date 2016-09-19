@@ -7,25 +7,23 @@ import com.codeup.movies.MoviesDatabase;
 import com.codeup.movies.MoviesMigration;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DatabaseApplication {
     public static void main(String[] args) {
-        Connection connection = null;
         Scanner scanner = new Scanner(System.in);
+        MySQLConnection databaseConnection = new MySQLConnection("root", "codeup");
 
         try {
-            connection = connection();
-            Database database = new Database(connection);
+            Connection connection = databaseConnection.connect();
             do {
                 System.out.println("1. Import Northwind");
                 System.out.println("2. Create table");
                 int action = scanner.nextInt();
                 switch (action) {
                     case 1:
-                        importNorthwindDatabase(database);
+                        importNorthwindDatabase(connection);
                         break;
                     default:
                         setupMoviesDatabase(connection);
@@ -35,7 +33,7 @@ public class DatabaseApplication {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(connection);
+            databaseConnection.close();
         }
     }
 
@@ -48,36 +46,16 @@ public class DatabaseApplication {
         migration.up();
     }
 
-    private static void close(Connection connection) {
-        try {
-            if (connection != null)
-                connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static void importNorthwindDatabase(
-        Database database
+        Connection connection
     ) throws SQLException, IOException {
-
+        Database database = new Database(connection);
         String name = "northwind";
+
         database.drop(name);
         database.create(name);
         database.importFile("database/northwind.sql");
         database.use(name);
         database.importFile("database/northwind-data.sql");
-    }
-
-    private static Connection connection() throws ClassNotFoundException, SQLException {
-        Connection connection;
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection(
-            String.format("jdbc:mysql://%s/", "localhost"),
-            "root",
-            "codeup"
-        );
-        return connection;
     }
 }
