@@ -3,7 +3,7 @@
  */
 package com.codeup.db;
 
-class IntColumn extends Column{
+public class IntColumn extends Column{
     private boolean autoIncrements = false;
     private boolean unsigned = false;
 
@@ -16,7 +16,7 @@ class IntColumn extends Column{
         return this;
     }
 
-    IntColumn unsigned() {
+    public IntColumn unsigned() {
         unsigned = true;
         return this;
     }

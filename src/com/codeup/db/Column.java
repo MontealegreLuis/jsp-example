@@ -3,7 +3,7 @@
  */
 package com.codeup.db;
 
-abstract class Column implements HasSQLRepresentation {
+abstract public class Column implements HasSQLRepresentation {
     private final String name;
     private boolean required = false;
     private String value;
@@ -16,12 +16,12 @@ abstract class Column implements HasSQLRepresentation {
         return name;
     }
 
-    Column makeRequired() {
+    public Column makeRequired() {
         required = true;
         return this;
     }
 
-    Column defaultTo(String value) {
+    public Column defaultTo(String value) {
         this.value = value;
         return this;
     }

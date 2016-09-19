@@ -6,7 +6,7 @@ package com.codeup.db;
 import java.util.ArrayList;
 import java.util.List;
 
-class Table implements HasSQLRepresentation {
+public class Table implements HasSQLRepresentation {
     private final String name;
     private List<Column> columns;
     private PrimaryKey primaryKey;
@@ -18,23 +18,23 @@ class Table implements HasSQLRepresentation {
         foreignKeys = new ArrayList<>();
     }
 
-    Column string(String name) {
+    public Column string(String name) {
         return string(name, 256);
     }
 
-    Column string(String name, int length) {
+    public Column string(String name, int length) {
         StringColumn column = new StringColumn(name, length);
         columns.add(column);
         return column;
     }
 
-    IntColumn integer(String name) {
+    public IntColumn integer(String name) {
         IntColumn column = new IntColumn(name);
         columns.add(column);
         return column;
     }
 
-    IntColumn increments(String name) {
+    public IntColumn increments(String name) {
         Column id =  new IntColumn(name)
             .autoIncrement()
             .unsigned()
@@ -45,13 +45,13 @@ class Table implements HasSQLRepresentation {
         return (IntColumn) id;
     }
 
-    ForeignKey foreign(IntColumn column) {
+    public ForeignKey foreign(IntColumn column) {
         ForeignKey foreignKey = new ForeignKey(column);
         foreignKeys.add(foreignKey);
         return foreignKey;
     }
 
-    PrimaryKey primary(IntColumn... columns) {
+    public PrimaryKey primary(IntColumn... columns) {
         primaryKey = PrimaryKey.composed(columns);
         return primaryKey;
     }

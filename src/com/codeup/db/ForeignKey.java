@@ -3,7 +3,7 @@
  */
 package com.codeup.db;
 
-class ForeignKey implements HasSQLRepresentation {
+public class ForeignKey implements HasSQLRepresentation {
     private final IntColumn column;
     private String foreignKeyName;
     private String table;
@@ -12,12 +12,12 @@ class ForeignKey implements HasSQLRepresentation {
         this.column = column;
     }
 
-    ForeignKey references(String name) {
+    public ForeignKey references(String name) {
         this.foreignKeyName = name;
         return this;
     }
 
-    ForeignKey on(String table) {
+    public ForeignKey on(String table) {
         this.table = table;
         return this;
     }

@@ -13,7 +13,7 @@ public class SchemaBuilder {
     private final Connection connection;
     private List<Table> tables;
 
-    SchemaBuilder(Connection connection) {
+    public SchemaBuilder(Connection connection) {
         this.connection = connection;
         tables = new ArrayList<>();
     }
