@@ -8,32 +8,32 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseSchema {
+public class Database {
     private final Connection connection;
 
-    public DatabaseSchema(Connection connection) {
+    public Database(Connection connection) {
         this.connection = connection;
     }
 
-    public void createDatabase(String databaseName) throws SQLException {
+    public void create(String database) throws SQLException {
         Statement statement = connection.createStatement();
         statement.executeUpdate(
-            String.format("CREATE DATABASE IF NOT EXISTS %s", databaseName)
+            String.format("CREATE DATABASE IF NOT EXISTS %s", database)
         );
         statement.close();
     }
 
-    public void dropDatabase(String databaseName) throws SQLException {
+    public void drop(String database) throws SQLException {
         Statement statement = connection.createStatement();
         statement.executeUpdate(
-            String.format("DROP DATABASE IF EXISTS %s", databaseName)
+            String.format("DROP DATABASE IF EXISTS %s", database)
         );
         statement.close();
     }
 
-    public void useDatabase(String databaseName) throws SQLException {
+    public void use(String database) throws SQLException {
         Statement statement = connection.createStatement();
-        statement.executeUpdate(String.format("USE %s", databaseName));
+        statement.executeUpdate(String.format("USE %s", database));
         statement.close();
     }
 
@@ -56,9 +56,5 @@ public class DatabaseSchema {
             }
         }
         statement.close();
-    }
-
-    public Table table(String name) {
-        return new Table(name);
     }
 }

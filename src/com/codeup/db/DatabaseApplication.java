@@ -17,17 +17,17 @@ public class DatabaseApplication {
 
         try {
             connection = connection();
-            DatabaseSchema schema = new DatabaseSchema(connection);
+            Database database = new Database(connection);
             do {
                 System.out.println("1. Import Northwind");
                 System.out.println("2. Create table");
                 int action = scanner.nextInt();
                 switch (action) {
                     case 1:
-                        importNorthwindDatabase(schema);
+                        importNorthwindDatabase(database);
                         break;
                     default:
-                        schema.useDatabase("northwind");
+                        database.use("northwind");
                         MoviesMigration migration = new MoviesMigration(connection);
                         migration.up();
                 }
@@ -50,15 +50,15 @@ public class DatabaseApplication {
     }
 
     private static void importNorthwindDatabase(
-        DatabaseSchema schema
+        Database database
     ) throws SQLException, IOException {
 
-        String databaseName = "northwind";
-        schema.dropDatabase(databaseName);
-        schema.createDatabase(databaseName);
-        schema.importFile("database/northwind.sql");
-        schema.useDatabase(databaseName);
-        schema.importFile("database/northwind-data.sql");
+        String name = "northwind";
+        database.drop(name);
+        database.create(name);
+        database.importFile("database/northwind.sql");
+        database.use(name);
+        database.importFile("database/northwind-data.sql");
     }
 
     private static Connection connection() throws ClassNotFoundException, SQLException {
