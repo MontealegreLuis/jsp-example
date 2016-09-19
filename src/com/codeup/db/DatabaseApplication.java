@@ -26,17 +26,7 @@ public class DatabaseApplication {
                         importNorthwindDatabase(schema);
                         break;
                     default:
-                        Table movies = schema.table("movies");
-                        movies.increments("id");
-                        movies.string("title", 300).makeRequired();
-                        movies.integer("rating").defaultTo("0");
-
-                        Table categories = schema.table("categories");
-                        categories.increments("id");
-                        categories.string("name").makeRequired();
-
-                        System.out.println(movies.toSQL());
-                        System.out.println(categories.toSQL());
+                        migrateMoviesExercise(schema);
                 }
                 System.out.println("Do you want to continue?");
             } while ("y".equalsIgnoreCase(scanner.next().trim()));
@@ -45,6 +35,28 @@ public class DatabaseApplication {
         } finally {
             close(connection);
         }
+    }
+
+    private static void migrateMoviesExercise(DatabaseSchema schema) {
+        Table movies = schema.table("movies");
+        movies.increments("id");
+        movies.string("title", 300).makeRequired();
+        movies.integer("rating").defaultTo("0");
+
+        Table categories = schema.table("categories");
+        categories.increments("id");
+        categories.string("name").makeRequired();
+
+        Table moviesCategories = schema.table("movies_categories");
+        IntColumn movieId = (IntColumn) moviesCategories.integer("movie_id").unsigned().makeRequired();
+        IntColumn categoryId = (IntColumn) moviesCategories.integer("category_id").unsigned().makeRequired();
+        moviesCategories.foreign(movieId).references("id").on("movies");
+        moviesCategories.foreign(categoryId).references("id").on("categories");
+        moviesCategories.primary(movieId, categoryId);
+
+        System.out.println(movies.toSQL());
+        System.out.println(categories.toSQL());
+        System.out.println(moviesCategories.toSQL());
     }
 
     private static void close(Connection connection) {

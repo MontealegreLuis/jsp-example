@@ -4,13 +4,22 @@
 package com.codeup.db;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class PrimaryKey implements HasSQLRepresentation {
-    private List<Column> columns = new ArrayList<Column>();
+class PrimaryKey implements HasSQLRepresentation {
+    private List<Column> columns = new ArrayList<>();
 
-    public PrimaryKey(Column column) {
+    private PrimaryKey(List<Column> columns) {
+        this.columns = columns;
+    }
+
+    PrimaryKey(Column column) {
         columns.add(column);
+    }
+
+    static PrimaryKey composed(Column ...columns) {
+        return new PrimaryKey(new ArrayList<>(Arrays.asList(columns)));
     }
 
     @Override

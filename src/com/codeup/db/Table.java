@@ -6,14 +6,16 @@ package com.codeup.db;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table implements HasSQLRepresentation {
+class Table implements HasSQLRepresentation {
     private final String name;
     private List<Column> columns;
     private PrimaryKey primaryKey;
+    private List<ForeignKey> foreignKeys;
 
     Table(String name) {
         this.name = name;
-        columns = new ArrayList<Column>();
+        columns = new ArrayList<>();
+        foreignKeys = new ArrayList<>();
     }
 
     Column string(String name) {
@@ -26,27 +28,47 @@ public class Table implements HasSQLRepresentation {
         return column;
     }
 
-    Column integer(String name) {
+    IntColumn integer(String name) {
         IntColumn column = new IntColumn(name);
         columns.add(column);
         return column;
     }
 
-    Column increments(String name) {
-        Column id = new IntColumn(name).autoIncrement().makeRequired();
+    IntColumn increments(String name) {
+        IntColumn id = (IntColumn) (new IntColumn(name).autoIncrement().makeRequired());
         primaryKey = new PrimaryKey(id);
         columns.add(id);
         return id;
     }
 
+    ForeignKey foreign(IntColumn column) {
+        ForeignKey foreignKey = new ForeignKey(column);
+        foreignKeys.add(foreignKey);
+        return foreignKey;
+    }
+
+    PrimaryKey primary(IntColumn... columns) {
+        primaryKey = PrimaryKey.composed(columns);
+        return primaryKey;
+    }
+
     @Override
     public String toSQL() {
         return String.format(
-            "CREATE TABLE %s (%s %s) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;",
+            "CREATE TABLE %s (%s %s %s) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;",
             name,
             columnDefinitions(),
-            primaryKey.toSQL()
+            primaryKey.toSQL(),
+            foreignKeysSQL()
         );
+    }
+
+    private String foreignKeysSQL() {
+        StringBuilder sql = new StringBuilder();
+        for (ForeignKey foreignKey : foreignKeys) {
+            sql.append(", ").append(foreignKey.toSQL());
+        }
+        return sql.toString();
     }
 
     private String columnDefinitions() {

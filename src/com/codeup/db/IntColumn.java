@@ -3,20 +3,29 @@
  */
 package com.codeup.db;
 
-public class IntColumn extends Column{
-    boolean autoIncrements = false;
+class IntColumn extends Column{
+    private boolean autoIncrements = false;
+    private boolean unsigned = false;
 
-    public IntColumn(String name) {
+    IntColumn(String name) {
         super(name);
     }
 
-    public IntColumn autoIncrement()
-    {
+    IntColumn autoIncrement() {
         autoIncrements = true;
         return this;
     }
 
-    public boolean isAutoIncrementing()
+    IntColumn unsigned() {
+        unsigned = true;
+        return this;
+    }
+
+    private boolean isUnsigned() {
+        return unsigned;
+    }
+
+    private boolean isAutoIncrementing()
     {
         return autoIncrements;
     }
@@ -24,9 +33,10 @@ public class IntColumn extends Column{
     @Override
     public String toSQL() {
         return String.format(
-            "%s INT %s %s %s",
+            "%s INT %s %s %s %s",
             name(),
             isRequired() ? "NOT NULL" : "",
+            isUnsigned() ? "UNSIGNED" : "",
             hasDefaultValue() ? String.format("DEFAULT '%s'", defaultValue()) : "",
             isAutoIncrementing() ? "AUTO_INCREMENTS" : ""
         ).trim();

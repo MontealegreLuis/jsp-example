@@ -3,6 +3,6 @@
  */
 package com.codeup.db;
 
-public interface HasSQLRepresentation {
+interface HasSQLRepresentation {
     String toSQL();
 }

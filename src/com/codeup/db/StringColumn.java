@@ -3,14 +3,14 @@
  */
 package com.codeup.db;
 
-public class StringColumn extends Column {
+class StringColumn extends Column {
     private final int length;
 
-    public StringColumn(String name) {
+    StringColumn(String name) {
         this(name, 256);
     }
 
-    public StringColumn(String name, int length) {
+    StringColumn(String name, int length) {
         super(name);
         this.length = length;
     }
