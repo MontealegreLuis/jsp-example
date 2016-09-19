@@ -1,11 +1,13 @@
 /**
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-package com.codeup.db;
+package com.codeup.northwind;
 
+import com.codeup.db.Database;
+import com.codeup.db.MySQLConnection;
 import java.sql.Connection;
 
-public class DatabaseApplication {
+public class NorthwindSetupApplication {
     public static void main(String[] args) {
         MySQLConnection databaseConnection = new MySQLConnection("root", "codeup");
 
