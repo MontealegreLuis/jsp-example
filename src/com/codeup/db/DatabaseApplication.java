@@ -3,6 +3,7 @@
  */
 package com.codeup.db;
 
+import com.codeup.movies.MoviesDatabase;
 import com.codeup.movies.MoviesMigration;
 import java.io.IOException;
 import java.sql.Connection;
@@ -27,9 +28,7 @@ public class DatabaseApplication {
                         importNorthwindDatabase(database);
                         break;
                     default:
-                        database.use("northwind");
-                        MoviesMigration migration = new MoviesMigration(connection);
-                        migration.up();
+                        setupMoviesDatabase(connection);
                 }
                 System.out.println("Do you want to continue?");
             } while ("y".equalsIgnoreCase(scanner.next().trim()));
@@ -38,6 +37,15 @@ public class DatabaseApplication {
         } finally {
             close(connection);
         }
+    }
+
+    private static void setupMoviesDatabase(
+        Connection connection
+    ) throws SQLException, IOException {
+        MoviesDatabase moviesDatabase = new MoviesDatabase(connection);
+        moviesDatabase.create("movies_db");
+        MoviesMigration migration = new MoviesMigration(connection);
+        migration.up();
     }
 
     private static void close(Connection connection) {
