@@ -35,10 +35,14 @@ class Table implements HasSQLRepresentation {
     }
 
     IntColumn increments(String name) {
-        IntColumn id = (IntColumn) (new IntColumn(name).autoIncrement().makeRequired());
+        Column id =  new IntColumn(name)
+            .autoIncrement()
+            .unsigned()
+            .makeRequired()
+        ;
         primaryKey = new PrimaryKey(id);
         columns.add(id);
-        return id;
+        return (IntColumn) id;
     }
 
     ForeignKey foreign(IntColumn column) {

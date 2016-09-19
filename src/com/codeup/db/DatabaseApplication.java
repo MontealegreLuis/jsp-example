@@ -26,7 +26,8 @@ public class DatabaseApplication {
                         importNorthwindDatabase(schema);
                         break;
                     default:
-                        migrateMoviesExercise(schema);
+                        schema.useDatabase("northwind");
+                        migrateMoviesExercise(connection);
                 }
                 System.out.println("Do you want to continue?");
             } while ("y".equalsIgnoreCase(scanner.next().trim()));
@@ -37,7 +38,8 @@ public class DatabaseApplication {
         }
     }
 
-    private static void migrateMoviesExercise(DatabaseSchema schema) {
+    private static void migrateMoviesExercise(Connection connection) throws SQLException {
+        SchemaBuilder schema = new SchemaBuilder(connection);
         Table movies = schema.table("movies");
         movies.increments("id");
         movies.string("title", 300).makeRequired();
@@ -57,6 +59,7 @@ public class DatabaseApplication {
         System.out.println(movies.toSQL());
         System.out.println(categories.toSQL());
         System.out.println(moviesCategories.toSQL());
+        schema.build();
     }
 
     private static void close(Connection connection) {

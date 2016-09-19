@@ -35,10 +35,10 @@ class IntColumn extends Column{
         return String.format(
             "%s INT %s %s %s %s",
             name(),
-            isRequired() ? "NOT NULL" : "",
             isUnsigned() ? "UNSIGNED" : "",
+            isRequired() ? "NOT NULL" : "",
             hasDefaultValue() ? String.format("DEFAULT '%s'", defaultValue()) : "",
-            isAutoIncrementing() ? "AUTO_INCREMENTS" : ""
+            isAutoIncrementing() ? "AUTO_INCREMENT" : ""
         ).trim();
     }
 }

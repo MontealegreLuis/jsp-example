@@ -25,7 +25,7 @@ class ForeignKey implements HasSQLRepresentation {
     @Override
     public String toSQL() {
         return String.format(
-            "FOREIGN KEY %s REFERENCES %s(%s)",
+            "FOREIGN KEY(%s) REFERENCES %s(%s)",
             column.name(),
             table,
             foreignKeyName
