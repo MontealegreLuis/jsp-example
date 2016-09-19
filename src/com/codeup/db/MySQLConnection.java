@@ -14,7 +14,7 @@ public class MySQLConnection {
         this.password = password;
     }
 
-    void close() {
+    public void close() {
         try {
             if (connection != null)
                 connection.close();
@@ -23,7 +23,7 @@ public class MySQLConnection {
         }
     }
 
-    Connection connect() throws ClassNotFoundException, SQLException {
+    public Connection connect() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         connection = DriverManager.getConnection(
