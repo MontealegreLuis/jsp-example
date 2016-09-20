@@ -36,9 +36,9 @@ public class JdbcMovies implements Movies {
             "SELECT " +
                 "m.* " +
             "FROM movies m " +
-            "INNER JOIN movies_categories ON mc.movie_id = m.id " +
-            "INNER JOIN categories c ON c.id = mc.categories_id " +
-            "WHERE c.name = ?"
+            "INNER JOIN movies_categories mc ON mc.movie_id = m.id " +
+            "INNER JOIN categories c ON c.id = mc.category_id " +
+            "WHERE c.id = ?"
         );
         statement.setString(1, category);
 

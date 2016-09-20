@@ -4,6 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.codeup.movies.*" %>
 <%
+    String searchedCategory = "";
     List<Movie> allMovies = new ArrayList<>();
     List<Category> allCategories = new ArrayList<>();
     MySQLConnection connection = new MySQLConnection("root", "Codeup1!", "movies_db");
@@ -11,7 +12,12 @@
         Movies movies = new JdbcMovies(connection.connect());
         JdbcCategories categories = new JdbcCategories(connection.connect());
         allCategories = categories.all();
-        allMovies = movies.all();
+        searchedCategory = request.getParameter("category");
+        if (searchedCategory != null && !searchedCategory.isEmpty()) {
+            allMovies = movies.inCategory(searchedCategory);
+        } else {
+            allMovies = movies.all();
+        }
     } catch (Exception e) {
         e.printStackTrace();
     } finally {

@@ -29,6 +29,10 @@ public class MySQLConnection {
     }
 
     public Connection connect() throws ClassNotFoundException, SQLException {
+        if (connection != null) {
+            return connection;
+        }
+
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         connection = DriverManager.getConnection(
