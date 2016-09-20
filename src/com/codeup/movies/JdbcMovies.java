@@ -50,7 +50,8 @@ public class JdbcMovies implements Movies {
         while (resultSet.next()) {
             movies.add(new Movie(
                 resultSet.getInt("id"),
-                resultSet.getString("title")
+                resultSet.getString("title"),
+                resultSet.getInt("rating")
             ));
         }
         return movies;
