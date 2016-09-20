@@ -15,11 +15,28 @@ public class JdbcMovies implements Movies {
     }
 
     @Override
-    public void add(Movie movie) throws SQLException {
+    public Movie with(int id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO movies(title, rating) VALUES(?, 0)"
+            "SELECT * FROM movies WHERE id = ?"
+        );
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return new Movie(
+            resultSet.getInt("id"),
+            resultSet.getString("title"),
+            resultSet.getInt("rating")
+        );
+    }
+
+    @Override
+    public void update(Movie movie) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+            "UPDATE movies SET title = ?, rating = ? WHERE id = ?"
         );
         statement.setString(1, movie.title());
+        statement.setInt(2, movie.rating());
+        statement.setInt(3, movie.id());
         statement.executeUpdate();
     }
 

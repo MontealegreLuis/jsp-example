@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Movies {
-    void add(Movie movie) throws SQLException;
+    Movie with(int id) throws SQLException;
     List<Movie> all() throws SQLException;
     List<Movie> inCategory(String category) throws SQLException;
+    void update(Movie movie) throws SQLException;
 }

@@ -14,6 +14,10 @@ public class Movie {
         this.rating = rating;
     }
 
+    public void rate(int rate) {
+        rating = rate;
+    }
+
     public String title() {
         return title;
     }

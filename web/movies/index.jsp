@@ -77,7 +77,8 @@
                 </td>
                 <td><%= movie.rating() %></td>
                 <td>
-                    <form action="rate.jsp?id<%= movie.id() %>" method="post">
+                    <form action="rate.jsp" method="post">
+                        <input type="hidden" name="id" value="<%= movie.id() %>">
                         <label class="radio-inline">
                             <input type="radio" name="rating" value="1"> 1
                         </label>
