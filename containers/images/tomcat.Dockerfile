@@ -1,5 +1,5 @@
 # Build a simple MySQL data volume Docker container.
-FROM tomcat:8.0
+FROM tomcat:9.0
 
 # Install MySQL's client
 

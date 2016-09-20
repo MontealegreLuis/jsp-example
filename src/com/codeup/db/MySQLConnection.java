@@ -5,10 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQLConnection {
+    private String database = null;
     private Connection connection;
     private String username;
     private String password;
 
+    public MySQLConnection(String username, String password, String database) {
+        this(username, password);
+        this.database = database;
+    }
     public MySQLConnection(String username, String password) {
         this.username = username;
         this.password = password;
@@ -27,7 +32,11 @@ public class MySQLConnection {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         connection = DriverManager.getConnection(
-            String.format("jdbc:mysql://%s/", "localhost"),
+            String.format(
+                "jdbc:mysql://%s/%s?useLegacyDatetimeCode=false&serverTimezone=UTC",
+                "localhost",
+                database == null ? "" : database
+            ),
             username,
             password
         );
