@@ -1,6 +1,7 @@
-package com.codeup.movies;
+package com.codeup.movies.setup;
 
 import com.codeup.db.MySQLConnection;
+
 import java.sql.Connection;
 
 public class MoviesSetupApplication {
@@ -9,13 +10,14 @@ public class MoviesSetupApplication {
 
         try {
             Connection connection = databaseConnection.connect();
-            MoviesDatabase database = new MoviesDatabase(connection);
             System.out.println("Creating movies database...");
-            database.create("movies_db");
+            new MoviesDatabase(connection).create("movies_db");
             System.out.println("Creating tables...");
-            MoviesMigration migration = new MoviesMigration(connection);
+            new MoviesMigration(connection).up();
+            System.out.println("Seeding database...");
+            new CategoriesSeeder(connection).seed();
+            new MoviesSeeder(connection).seed();
             System.out.println("Done!");
-            migration.up();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

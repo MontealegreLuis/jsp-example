@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface Categories {
     List<Category> all() throws SQLException;
+    Category named(String name) throws SQLException;
+    void add(Category category) throws SQLException;
 }

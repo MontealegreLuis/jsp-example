@@ -3,10 +3,7 @@
  */
 package com.codeup.movies;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +12,30 @@ public class JdbcCategories implements Categories {
 
     public JdbcCategories(Connection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    public Category named(String name) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+            "SELECT * FROM categories WHERE name = ?"
+        );
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return new Category(
+            resultSet.getInt("id"),
+            resultSet.getString("name")
+        );
+    }
+
+    @Override
+    public void add(Category category) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+            "INSERT INTO categories (name) VALUES (?)"
+        );
+        statement.setString(1, category.name());
+        statement.executeUpdate();
+        statement.close();
     }
 
     @Override

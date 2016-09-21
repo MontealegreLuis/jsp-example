@@ -1,4 +1,4 @@
-package com.codeup.movies;
+package com.codeup.movies.setup;
 
 import com.codeup.db.IntColumn;
 import com.codeup.db.SchemaBuilder;
@@ -7,14 +7,14 @@ import com.codeup.db.Table;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MoviesMigration {
+class MoviesMigration {
     private Connection connection;
 
-    public MoviesMigration(Connection connection) {
+    MoviesMigration(Connection connection) {
         this.connection = connection;
     }
 
-    public void up() throws SQLException {
+    void up() throws SQLException {
         SchemaBuilder schema = new SchemaBuilder(connection);
 
         Table movies = schema.table("movies");

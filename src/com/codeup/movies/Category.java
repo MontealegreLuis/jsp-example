@@ -19,4 +19,8 @@ public class Category {
     public String name() {
         return name;
     }
+
+    public static Category named(String category) {
+        return new Category(0, category);
+    }
 }

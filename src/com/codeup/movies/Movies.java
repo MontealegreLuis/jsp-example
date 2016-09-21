@@ -11,4 +11,5 @@ public interface Movies {
     List<Movie> all() throws SQLException;
     List<Movie> inCategory(String category) throws SQLException;
     void update(Movie movie) throws SQLException;
+    void add(Movie movie) throws SQLException;
 }

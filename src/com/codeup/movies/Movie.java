@@ -4,14 +4,28 @@
 package com.codeup.movies;
 
 public class Movie {
-    private final int id;
-    private final String title;
+    private int id;
+    private String title;
     private int rating;
+    private Category category;
 
     public Movie(int id, String title, int rating) {
         this.id = id;
         this.title = title;
         this.rating = rating;
+    }
+
+    private Movie(String title, Category category) {
+        this(0, title, 0);
+        this.category = category;
+    }
+
+    void setId(int id) {
+        this.id = id;
+    }
+
+    public Category category() {
+        return category;
     }
 
     public void rate(int rate) {
@@ -28,5 +42,9 @@ public class Movie {
 
     public int rating() {
         return rating;
+    }
+
+    public static Movie titled(String title, Category category) {
+        return new Movie(title, category);
     }
 }
