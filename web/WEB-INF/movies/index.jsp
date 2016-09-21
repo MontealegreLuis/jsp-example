@@ -1,33 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.codeup.db.MySQLConnection" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.codeup.movies.*" %>
-<%
-    String searchedCategory = "";
-    List<Movie> allMovies = new ArrayList<>();
-    List<Category> allCategories = new ArrayList<>();
-    MySQLConnection connection = new MySQLConnection("root", "Codeup1!", "movies_db");
-    try {
-        Movies movies = new JdbcMovies(connection.connect());
-        JdbcCategories categories = new JdbcCategories(connection.connect());
-        allCategories = categories.all();
-        searchedCategory = request.getParameter("category");
-        if (searchedCategory != null && !searchedCategory.isEmpty()) {
-            allMovies = movies.inCategory(searchedCategory);
-        } else {
-            allMovies = movies.all();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        connection.close();
-    }
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <jsp:include page="/includes/head.jsp">
+    <jsp:include page="/WEB-INF/includes/head.jsp">
         <jsp:param name="title" value="Search your favorite movies"/>
     </jsp:include>
 </head>
@@ -45,11 +21,11 @@
                         <label for="category">Category</label>
                         <select name="category" id="category" class="form-control">
                             <option value="">Choose one</option>
-                            <% for (Category category : allCategories) { %>
-                                <option value="<%= category.id() %>">
-                                    <%= category.name() %>
+                            <c:forEach items="${requestScope.categories}" var="category">
+                                <option value="${category.id()}">
+                                    ${category.name()}
                                 </option>
-                            <% } %>
+                            </c:forEach>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-default">
@@ -68,17 +44,17 @@
                 </tr>
             </thead>
             <tbody>
-            <% for (Movie movie : allMovies) { %>
+            <c:forEach items="${requestScope.movies}" var="movie">
             <tr>
                 <td>
-                    <a href="show.jsp?id=<%= movie.id() %>">
-                        <%= movie.title() %>
+                    <a href="/movies/show?id=${movie.id()}">
+                        ${movie.title()}
                     </a>
                 </td>
-                <td><%= movie.rating() %></td>
+                <td>${movie.rating()}</td>
                 <td>
-                    <form action="rate.jsp" method="post">
-                        <input type="hidden" name="id" value="<%= movie.id() %>">
+                    <form action="/movies/rate" method="post">
+                        <input type="hidden" name="id" value="${movie.id()}">
                         <label class="radio-inline">
                             <input type="radio" name="rating" value="1"> 1
                         </label>
@@ -102,10 +78,10 @@
                     </form>
                 </td>
             </tr>
-            <% } %>
+            </c:forEach>
             </tbody>
         </table>
     </div>
-    <jsp:include page="/includes/scripts.jsp"/>
+    <jsp:include page="/WEB-INF/includes/scripts.jsp"/>
 </body>
 </html>
