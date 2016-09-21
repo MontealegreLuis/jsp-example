@@ -3,10 +3,7 @@
  */
 package com.codeup.movies.servlets;
 
-import com.codeup.db.MySQLConnection;
-import com.codeup.movies.JdbcMovies;
-import com.codeup.movies.Movie;
-import com.codeup.movies.Movies;
+import com.codeup.movies.actions.RateMovie;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,20 +18,13 @@ public class RateMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        int rate = Integer.parseInt(request.getParameter("rating"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        MySQLConnection connection = new MySQLConnection("root", "Codeup1!", "movies_db");
+        RateMovie rateMovie = new RateMovie();
 
-        try {
-            Movies movies = new JdbcMovies(connection.connect());
-            Movie movie = movies.with(id);
-            movie.rate(rate);
-            movies.update(movie);
-            response.sendRedirect("/movies");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
+        rateMovie.rate(
+            Integer.parseInt(request.getParameter("id")),
+            Integer.parseInt(request.getParameter("rating"))
+        );
+
+        response.sendRedirect("/movies");
     }
 }
