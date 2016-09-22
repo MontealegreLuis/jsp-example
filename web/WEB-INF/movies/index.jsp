@@ -22,7 +22,7 @@
                         <label for="category">Category</label>
                         <select name="category" id="category" class="form-control">
                             <option value="">Choose one</option>
-                            <c:forEach items="${requestScope.categories}" var="category">
+                            <c:forEach items="${categories}" var="category">
                                 <option value="${category.id()}">
                                     ${category.name()}
                                 </option>
@@ -41,11 +41,13 @@
                 <tr>
                     <th>Title</th>
                     <th>Rating</th>
+                    <c:if test="${user != null}">
                     <th>Rate!</th>
+                    </c:if>
                 </tr>
             </thead>
             <tbody>
-            <c:forEach items="${requestScope.movies}" var="movie">
+            <c:forEach items="${movies}" var="movie">
             <tr>
                 <td>
                     <a href="/movies/show?id=${movie.id()}">
@@ -53,6 +55,7 @@
                     </a>
                 </td>
                 <td>${movie.rating()}</td>
+                <c:if test="${user != null}">
                 <td>
                     <form action="/movies/rate" method="post">
                         <input type="hidden" name="id" value="${movie.id()}">
@@ -78,6 +81,7 @@
                         </button>
                     </form>
                 </td>
+                </c:if>
             </tr>
             </c:forEach>
             </tbody>
