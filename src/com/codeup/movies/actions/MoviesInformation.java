@@ -12,7 +12,7 @@ public class MoviesInformation {
     public final List<Category> categories;
     public final List<Movie> movies;
 
-    public MoviesInformation(List<Category> categories, List<Movie> movies) {
+    MoviesInformation(List<Category> categories, List<Movie> movies) {
         this.categories = categories;
         this.movies = movies;
     }

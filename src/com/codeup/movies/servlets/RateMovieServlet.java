@@ -3,6 +3,7 @@
  */
 package com.codeup.movies.servlets;
 
+import com.codeup.db.MySQLConnection;
 import com.codeup.movies.actions.RateMovie;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,9 @@ public class RateMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        RateMovie rateMovie = new RateMovie();
+        RateMovie rateMovie = new RateMovie(
+            new MySQLConnection("root", "Codeup1!", "movies_db")
+        );
 
         rateMovie.rate(
             Integer.parseInt(request.getParameter("id")),

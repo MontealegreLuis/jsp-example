@@ -3,6 +3,7 @@
  */
 package com.codeup.movies.servlets;
 
+import com.codeup.db.MySQLConnection;
 import com.codeup.movies.actions.ViewMovie;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,9 @@ public class ViewMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        ViewMovie viewMovie = new ViewMovie();
+        ViewMovie viewMovie = new ViewMovie(
+            new MySQLConnection("root", "Codeup1!", "movies_db")
+        );
 
         request.setAttribute(
             "movie",

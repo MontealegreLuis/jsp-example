@@ -3,6 +3,7 @@
  */
 package com.codeup.movies.servlets;
 
+import com.codeup.db.MySQLConnection;
 import com.codeup.movies.actions.MoviesInformation;
 import com.codeup.movies.actions.ViewMovies;
 
@@ -19,9 +20,13 @@ public class ViewMoviesServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        ViewMovies viewMovies = new ViewMovies();
+        ViewMovies viewMovies = new ViewMovies(
+            new MySQLConnection("root", "Codeup1!", "movies_db")
+        );
 
-        MoviesInformation information = viewMovies.view(request.getParameter("category"));
+        MoviesInformation information = viewMovies.view(
+            request.getParameter("category")
+        );
 
         request.setAttribute("categories", information.categories);
         request.setAttribute("movies", information.movies);

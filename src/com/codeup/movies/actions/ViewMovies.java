@@ -13,13 +13,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ViewMovies {
+    private final MySQLConnection connection;
+
+    public ViewMovies(MySQLConnection connection) {
+        this.connection = connection;
+    }
+
     public MoviesInformation view(String category) {
-        MySQLConnection connection = new MySQLConnection("root", "Codeup1!", "movies_db");
         try {
             Movies movies = new JdbcMovies(connection.connect());
-            JdbcCategories categories = new JdbcCategories(connection.connect());
 
-            return new MoviesInformation(categories.all(), getMovies(movies, category));
+            return new MoviesInformation(
+                new JdbcCategories(connection.connect()).all(),
+                getMovies(movies, category)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
