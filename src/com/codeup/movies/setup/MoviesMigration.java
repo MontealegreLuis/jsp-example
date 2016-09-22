@@ -17,6 +17,11 @@ class MoviesMigration {
     void up() throws SQLException {
         SchemaBuilder schema = new SchemaBuilder(connection);
 
+        Table users = schema.table("users");
+        users.increments("id");
+        users.string("username", 50).makeRequired();
+        users.string("password").makeRequired();
+
         Table movies = schema.table("movies");
         movies.increments("id");
         movies.string("title", 300).makeRequired();

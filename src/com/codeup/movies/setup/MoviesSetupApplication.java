@@ -19,6 +19,7 @@ public class MoviesSetupApplication {
             System.out.println("Seeding database...");
             new CategoriesSeeder(connection).seed();
             new MoviesSeeder(connection).seed();
+            new UsersSeeder(connection).seed();
             System.out.println("Done!");
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="/WEB-INF/includes/head.jsp">
-        <jsp:param name="title" value="Search your favorite movies"/>
+        <jsp:param name="title" value="${requestScope.movie.title()}"/>
     </jsp:include>
 </head>
 <body>

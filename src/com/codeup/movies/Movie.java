@@ -40,7 +40,7 @@ public class Movie {
         return id;
     }
 
-    int rating() {
+    public int rating() {
         return rating;
     }
 
