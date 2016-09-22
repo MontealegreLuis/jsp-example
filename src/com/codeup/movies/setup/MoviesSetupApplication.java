@@ -6,7 +6,9 @@ import java.sql.Connection;
 
 public class MoviesSetupApplication {
     public static void main(String[] args) {
-        MySQLConnection databaseConnection = new MySQLConnection("root", "Codeup1!");
+        MySQLConnection databaseConnection = new MySQLConnection(
+            "root", "Codeup1!"
+        );
 
         try {
             Connection connection = databaseConnection.connect();

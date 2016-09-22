@@ -16,8 +16,8 @@ class CategoriesSeeder {
         this.connection = connection;
     }
 
-    public void seed() throws SQLException {
-        String[] catalog = new String[]{
+    void seed() throws SQLException {
+        String[] catalog = {
             "drama",
             "musical",
             "scifi",

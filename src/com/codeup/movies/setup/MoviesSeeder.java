@@ -14,6 +14,7 @@ class MoviesSeeder {
     MoviesSeeder(Connection connection) {
         this.connection = connection;
     }
+
     void seed() throws SQLException {
         JdbcMovies movies = new JdbcMovies(connection);
         JdbcCategories categories = new JdbcCategories(connection);
