@@ -8,6 +8,7 @@
     </jsp:include>
 </head>
 <body>
+    <jsp:include page="/WEB-INF/includes/navigation.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
