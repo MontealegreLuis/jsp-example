@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
                 invalidCredentials(request, response);
                 return;
             }
-            request.getSession().setAttribute("user", user.id());
+            request.getSession().setAttribute("user", user);
             response.sendRedirect("/movies");
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +58,10 @@ public class LoginServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        request.setAttribute("error", "Your user or password are incorrect.");
+        request.setAttribute(
+            "error",
+            "Either your username or password is incorrect."
+        );
         request
             .getRequestDispatcher("/WEB-INF/auth/login.jsp")
             .forward(request, response)

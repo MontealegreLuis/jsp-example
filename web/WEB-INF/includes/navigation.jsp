@@ -30,7 +30,7 @@
             <c:choose>
                 <c:when test="${user != null}">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a>Hi ${user}</a></li>
+                        <li><a>Hi ${user.username()}</a></li>
                         <li>
                             <a href="/logout">Logout</a>
                         </li>

@@ -20,7 +20,9 @@
                 </div>
                 <div class="panel-body">
                     <c:if test="${requestScope.error != null}">
-                        <p class="bg-danger">${requestScope.error}</p>
+                        <p class="help-block alert alert-danger">
+                            ${requestScope.error}
+                        </p>
                     </c:if>
                     <form method="post" action="/login">
                         <div class="form-group">
@@ -30,6 +32,7 @@
                                 class="form-control"
                                 name="username"
                                 id="username"
+                                autofocus
                             >
                         </div>
                         <div class="form-group">
