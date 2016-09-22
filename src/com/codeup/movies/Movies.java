@@ -3,13 +3,12 @@
  */
 package com.codeup.movies;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Movies {
-    Movie with(int id) throws SQLException;
-    List<Movie> all() throws SQLException;
-    List<Movie> inCategory(String category) throws SQLException;
-    void update(Movie movie) throws SQLException;
-    void add(Movie movie) throws SQLException;
+    Movie with(int id);
+    List<Movie> all();
+    List<Movie> inCategory(String category);
+    void update(Movie movie);
+    void add(Movie movie);
 }

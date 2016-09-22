@@ -9,7 +9,7 @@ public class Movie {
     private int rating;
     private Category category;
 
-    public Movie(int id, String title, int rating) {
+    Movie(int id, String title, int rating) {
         this.id = id;
         this.title = title;
         this.rating = rating;
@@ -40,7 +40,7 @@ public class Movie {
         return id;
     }
 
-    public int rating() {
+    int rating() {
         return rating;
     }
 
