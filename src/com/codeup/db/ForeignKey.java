@@ -4,11 +4,11 @@
 package com.codeup.db;
 
 public class ForeignKey implements HasSQLRepresentation {
-    private final IntColumn column;
+    private final Column column;
     private String foreignKeyName;
     private String table;
 
-    ForeignKey(IntColumn column) {
+    ForeignKey(Column column) {
         this.column = column;
     }
 

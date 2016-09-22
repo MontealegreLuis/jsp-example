@@ -6,6 +6,7 @@ package com.codeup.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,6 @@ public class SchemaBuilder {
 
     public void build() throws SQLException {
         Statement statement = connection.createStatement();
-        for (Table table : tables) {
-            statement.executeUpdate(table.toSQL());
-        }
+        for (Table table : tables)  statement.executeUpdate(table.toSQL());
     }
 }

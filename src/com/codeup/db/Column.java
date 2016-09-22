@@ -26,15 +26,15 @@ abstract public class Column implements HasSQLRepresentation {
         return this;
     }
 
-    String defaultValue() {
-        return value;
-    }
-
     boolean isRequired() {
         return required;
     }
 
     boolean hasDefaultValue() {
         return value != null;
+    }
+
+    protected String defaultValueToSQL() {
+        return String.format("DEFAULT '%s'", value);
     }
 }

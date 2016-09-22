@@ -29,9 +29,7 @@ class PrimaryKey implements HasSQLRepresentation {
 
     private String columnNames() {
         StringBuilder names = new StringBuilder();
-        for (Column column : columns) {
-            names.append(column.name()).append(", ");
-        }
+        columns.forEach(column -> names.append(column.name()).append(", "));
         return names.toString().replaceAll(", $", "");
     }
 }

@@ -22,7 +22,7 @@ class StringColumn extends Column {
             name(),
             length,
             isRequired() ? "NOT NULL" : "",
-            hasDefaultValue() ? String.format("DEFAULT '%s'", defaultValue()) : ""
+            hasDefaultValue() ? defaultValueToSQL() : ""
         ).trim();
     }
 }

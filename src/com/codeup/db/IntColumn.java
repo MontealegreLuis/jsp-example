@@ -37,7 +37,7 @@ public class IntColumn extends Column{
             name(),
             isUnsigned() ? "UNSIGNED" : "",
             isRequired() ? "NOT NULL" : "",
-            hasDefaultValue() ? String.format("DEFAULT '%s'", defaultValue()) : "",
+            hasDefaultValue() ? defaultValueToSQL() : "",
             isAutoIncrementing() ? "AUTO_INCREMENT" : ""
         ).trim();
     }

@@ -14,6 +14,7 @@ public class MySQLConnection {
         this(username, password);
         this.database = database;
     }
+
     public MySQLConnection(String username, String password) {
         this.username = username;
         this.password = password;
@@ -21,29 +22,30 @@ public class MySQLConnection {
 
     public void close() {
         try {
-            if (connection != null)
-                connection.close();
+            if (connection != null) connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public Connection connect() throws ClassNotFoundException, SQLException {
-        if (connection != null) {
-            return connection;
-        }
+        if (connection != null)  return connection;
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         connection = DriverManager.getConnection(
-            String.format(
-                "jdbc:mysql://%s/%s?useLegacyDatetimeCode=false&serverTimezone=UTC",
-                "localhost",
-                database == null ? "" : database
-            ),
+            connectionURL(),
             username,
             password
         );
         return connection;
+    }
+
+    private String connectionURL() {
+        return String.format(
+            "jdbc:mysql://%s/%s?useLegacyDatetimeCode=false&serverTimezone=UTC",
+            "localhost",
+            database == null ? "" : database
+        );
     }
 }

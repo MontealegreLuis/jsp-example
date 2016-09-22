@@ -69,17 +69,17 @@ public class Table implements HasSQLRepresentation {
 
     private String foreignKeysSQL() {
         StringBuilder sql = new StringBuilder();
-        for (ForeignKey foreignKey : foreignKeys) {
-            sql.append(", ").append(foreignKey.toSQL());
-        }
+        foreignKeys.forEach(
+            foreignKey -> sql.append(", ").append(foreignKey.toSQL())
+        );
         return sql.toString();
     }
 
     private String columnDefinitions() {
         StringBuilder definition = new StringBuilder();
-        for (Column column : columns) {
-            definition.append(column.toSQL()).append(", ");
-        }
+        columns.forEach(
+            column -> definition.append(column.toSQL()).append(", ")
+        );
         return definition.toString().trim();
     }
 }

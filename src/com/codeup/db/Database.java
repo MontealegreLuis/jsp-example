@@ -4,6 +4,7 @@
 package com.codeup.db;
 
 import java.io.*;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,11 +38,15 @@ public class Database {
         statement.close();
     }
 
-    public void importFile(String sqlFile) throws IOException, SQLException {
+    public void importFile(
+        String sqlFile
+    ) throws IOException, SQLException {
         String line;
         StringBuilder queries = new StringBuilder();
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File(sqlFile)));
+        BufferedReader reader = new BufferedReader(new FileReader(
+            new File(sqlFile)
+        ));
         while ((line = reader.readLine()) != null) {
             queries.append(line).append(" ");
         }
