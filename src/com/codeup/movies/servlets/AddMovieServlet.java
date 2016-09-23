@@ -7,6 +7,7 @@ import com.codeup.db.MySQLConnection;
 import com.codeup.movies.JdbcCategories;
 import com.codeup.movies.JdbcMovies;
 import com.codeup.movies.Movie;
+import com.codeup.movies.actions.AddMovie;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,22 +22,16 @@ public class AddMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        MySQLConnection connection = new MySQLConnection(
+        AddMovie addMovie = new AddMovie(new MySQLConnection(
             "root", "Codeup1!", "movies_db"
+        ));
+
+        addMovie.add(
+            request.getParameter("title"),
+            Integer.parseInt(request.getParameter("rating")),
+            request.getParameterValues("category[]")
         );
-        try {
-            JdbcCategories categories = new JdbcCategories(connection.connect());
-            Movie movie = new Movie(
-                request.getParameter("title"),
-                Integer.parseInt(request.getParameter("rating")),
-                categories.with(request.getParameterValues("category[]"))
-            );
-            new JdbcMovies(connection.connect()).add(movie);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
+
         response.sendRedirect("/movies");
     }
 
@@ -44,22 +39,18 @@ public class AddMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        MySQLConnection connection = new MySQLConnection(
+        AddMovie addMovie = new AddMovie(new MySQLConnection(
             "root", "Codeup1!", "movies_db"
+        ));
+
+        request.setAttribute(
+            "categories",
+            addMovie.categories()
         );
-        try {
-            request.setAttribute(
-                "categories",
-                new JdbcCategories(connection.connect()).all()
-            );
-            request
-                .getRequestDispatcher("/WEB-INF/movies/new.jsp")
-                .forward(request, response)
-            ;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
+
+        request
+            .getRequestDispatcher("/WEB-INF/movies/new.jsp")
+            .forward(request, response)
+        ;
     }
 }
