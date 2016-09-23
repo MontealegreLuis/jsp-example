@@ -10,7 +10,6 @@ public class Movie {
     private int id;
     private String title;
     private int rating;
-    private Category category;
     private List<Category> categories = new ArrayList<>();
 
     public Movie(int id, String title, int rating) {
@@ -21,7 +20,7 @@ public class Movie {
 
     private Movie(String title, Category category) {
         this(0, title, 0);
-        this.category = category;
+        categories.add(category);
     }
 
     public Movie(String title, int rating, List<Category> categories) {
@@ -31,10 +30,6 @@ public class Movie {
 
     void setId(int id) {
         this.id = id;
-    }
-
-    public Category category() {
-        return category;
     }
 
     public void rate(int rate) {
