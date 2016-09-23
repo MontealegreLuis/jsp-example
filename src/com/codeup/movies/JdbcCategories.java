@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.*;
+
 public class JdbcCategories implements Categories {
     private final Connection connection;
 
@@ -44,6 +46,27 @@ public class JdbcCategories implements Categories {
             statement.close();
         } catch (SQLException e) {
             throw new RuntimeException("Cannot add category", e);
+        }
+    }
+
+    @Override
+    public List<Category> with(String... categories) {
+        try {
+            StringBuilder parameters = new StringBuilder();
+            for (String __ : categories) {
+                parameters.append("?, ");
+            }
+            PreparedStatement statement = connection.prepareStatement(String.format(
+                "SELECT * FROM categories WHERE id IN (%s)",
+                parameters.toString().replaceAll(", $", "")
+            ));
+            for (int i = 0; i < categories.length; i++) {
+                statement.setInt(i + 1, parseInt(categories[i]));
+            }
+            ResultSet resultSet = statement.executeQuery();
+            return populateCategories(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot retrieve the categories", e);
         }
     }
 

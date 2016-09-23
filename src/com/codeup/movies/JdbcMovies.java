@@ -28,7 +28,7 @@ public class JdbcMovies implements Movies {
             key.next();
             movie.setId(key.getInt(1));
             statement.close();
-            if (movie.category() != null) {
+            if (movie.category() != null || movie.categories() != null) {
                 categorize(movie);
             }
         } catch (SQLException e) {
@@ -40,10 +40,22 @@ public class JdbcMovies implements Movies {
         PreparedStatement statement = connection.prepareStatement(
             "INSERT INTO movies_categories (movie_id, category_id) VALUES (?, ?)"
         );
-        statement.setInt(1, movie.id());
-        statement.setInt(2, movie.category().id());
-        statement.executeUpdate();
+        if (movie.categories() != null) {
+            movie.categories().forEach(category -> attach(movie, category, statement));
+        } else {
+            attach(movie, movie.category(), statement);
+        }
         statement.close();
+    }
+
+    private void attach(Movie movie, Category category, PreparedStatement statement) {
+        try {
+            statement.setInt(1, movie.id());
+            statement.setInt(2, category.id());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot categorize movie", e);
+        }
     }
 
     @Override

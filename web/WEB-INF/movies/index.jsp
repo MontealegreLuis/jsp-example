@@ -59,21 +59,7 @@
                 <td>
                     <form action="/movies/rate" method="post">
                         <input type="hidden" name="id" value="${movie.id()}">
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" value="1"> 1
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" value="2"> 2
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" value="3"> 3
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" value="4"> 4
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="rating" value="5"> 5
-                        </label>
+                        <jsp:include page="/WEB-INF/includes/ratings.jsp"/>
                         &nbsp;&nbsp;
                         <button type="submit" class="btn btn-primary">
                             <span class="glyphicon glyphicon-ok"></span>

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"RateMovieServlet"})
+@WebFilter(servletNames = {"RateMovieServlet", "AddMovieServlet"})
 public class AuthenticationFilter implements Filter {
     public void doFilter(
         ServletRequest req,

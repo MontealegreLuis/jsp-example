@@ -3,13 +3,17 @@
  */
 package com.codeup.movies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movie {
     private int id;
     private String title;
     private int rating;
     private Category category;
+    private List<Category> categories = new ArrayList<>();
 
-    Movie(int id, String title, int rating) {
+    public Movie(int id, String title, int rating) {
         this.id = id;
         this.title = title;
         this.rating = rating;
@@ -18,6 +22,11 @@ public class Movie {
     private Movie(String title, Category category) {
         this(0, title, 0);
         this.category = category;
+    }
+
+    public Movie(String title, int rating, List<Category> categories) {
+        this(0, title, rating);
+        this.categories = categories;
     }
 
     void setId(int id) {
@@ -46,5 +55,9 @@ public class Movie {
 
     public static Movie titled(String title, Category category) {
         return new Movie(title, category);
+    }
+
+    public List<Category> categories() {
+        return categories;
     }
 }

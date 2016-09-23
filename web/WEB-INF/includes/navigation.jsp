@@ -32,6 +32,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a>Hi ${user.username()}</a></li>
                         <li>
+                            <a href="/movies/new">Add a movie</a>
+                        </li>
+                        <li>
                             <a href="/logout">Logout</a>
                         </li>
                     </ul>
