@@ -37,7 +37,6 @@
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
-        <outputDirectory>web/WEB-INF/classes</outputDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
