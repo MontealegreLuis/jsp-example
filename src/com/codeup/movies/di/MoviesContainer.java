@@ -3,7 +3,7 @@
  */
 package com.codeup.movies.di;
 
-import com.codeup.db.MySQLConnection;
+import com.codeup.db.di.DbContainer;
 import com.codeup.movies.Categories;
 import com.codeup.movies.JdbcCategories;
 import com.codeup.movies.JdbcMovies;
@@ -20,7 +20,6 @@ public class MoviesContainer {
     private static RateMovie rateMovie;
     private static ViewMovie viewMovie;
     private static ViewMovies viewMovies;
-    private static MySQLConnection connection;
 
     public static AddMovie addMovie() throws SQLException, ClassNotFoundException {
         if (addMovie == null) {
@@ -35,7 +34,6 @@ public class MoviesContainer {
         }
         return rateMovie;
     }
-
 
     public static ViewMovie viewMovie() throws SQLException, ClassNotFoundException {
         if (viewMovie == null) {
@@ -52,18 +50,11 @@ public class MoviesContainer {
     }
 
     private static Movies movies() throws SQLException, ClassNotFoundException {
-        return new JdbcMovies(connection().connect());
+        return new JdbcMovies(DbContainer.connection());
     }
 
     private static Categories categories()
         throws SQLException, ClassNotFoundException {
-        return new JdbcCategories(connection().connect());
-    }
-
-    public static MySQLConnection connection() {
-        if (connection == null) {
-            connection = new MySQLConnection("root", "Codeup1!", "movies_db");
-        }
-        return connection;
+        return new JdbcCategories(DbContainer.connection());
     }
 }

@@ -6,7 +6,7 @@ package com.codeup.auth.di;
 import com.codeup.auth.JdbcUsers;
 import com.codeup.auth.Users;
 import com.codeup.auth.actions.AuthenticateUser;
-import com.codeup.movies.di.MoviesContainer;
+import com.codeup.db.di.DbContainer;
 
 import java.sql.SQLException;
 
@@ -21,6 +21,6 @@ public class AuthContainer {
     }
 
     private static Users users() throws SQLException, ClassNotFoundException {
-        return new JdbcUsers(MoviesContainer.connection().connect());
+        return new JdbcUsers(DbContainer.connection());
     }
 }
