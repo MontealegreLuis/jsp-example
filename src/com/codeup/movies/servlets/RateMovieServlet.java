@@ -3,8 +3,8 @@
  */
 package com.codeup.movies.servlets;
 
-import com.codeup.db.MySQLConnection;
 import com.codeup.movies.actions.RateMovie;
+import com.codeup.movies.di.Container;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,15 +15,24 @@ import java.io.IOException;
 
 @WebServlet(name = "RateMovieServlet", urlPatterns = {"/movies/rate"})
 public class RateMovieServlet extends HttpServlet {
+    private RateMovie action;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            action = Container.rateMovie();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot initialize RateMovie action", e);
+        }
+    }
+
     protected void doPost(
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        RateMovie rateMovie = new RateMovie(
-            new MySQLConnection("root", "Codeup1!", "movies_db")
-        );
 
-        rateMovie.rate(
+        action.rate(
             Integer.parseInt(request.getParameter("id")),
             Integer.parseInt(request.getParameter("rating"))
         );

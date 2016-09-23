@@ -3,29 +3,19 @@
  */
 package com.codeup.movies.actions;
 
-import com.codeup.db.MySQLConnection;
-
-import com.codeup.movies.JdbcMovies;
 import com.codeup.movies.Movie;
 import com.codeup.movies.Movies;
 
 public class RateMovie {
-    private final MySQLConnection connection;
+    private final Movies movies;
 
-    public RateMovie(MySQLConnection connection) {
-        this.connection = connection;
+    public RateMovie(Movies movies) {
+        this.movies = movies;
     }
 
     public void rate(int id, int rate) {
-        try {
-            Movies movies = new JdbcMovies(connection.connect());
-            Movie movie = movies.with(id);
-            movie.rate(rate);
-            movies.update(movie);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
+        Movie movie = movies.with(id);
+        movie.rate(rate);
+        movies.update(movie);
     }
 }

@@ -3,8 +3,8 @@
  */
 package com.codeup.movies.servlets;
 
-import com.codeup.db.MySQLConnection;
 import com.codeup.movies.actions.ViewMovie;
+import com.codeup.movies.di.Container;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,17 +15,26 @@ import java.io.IOException;
 
 @WebServlet(name = "ViewMovieServlet", urlPatterns = { "/movies/show" })
 public class ViewMovieServlet extends HttpServlet {
+    private ViewMovie action;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            action = Container.viewMovie();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot initialize ViewMovie action.", e);
+        }
+    }
+
     protected void doGet(
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        ViewMovie viewMovie = new ViewMovie(
-            new MySQLConnection("root", "Codeup1!", "movies_db")
-        );
 
         request.setAttribute(
             "movie",
-            viewMovie.view(Integer.parseInt(request.getParameter("id")))
+            action.view(Integer.parseInt(request.getParameter("id")))
         );
 
         request

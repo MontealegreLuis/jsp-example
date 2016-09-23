@@ -3,46 +3,30 @@
  */
 package com.codeup.movies.actions;
 
-import com.codeup.db.MySQLConnection;
-import com.codeup.movies.JdbcCategories;
-import com.codeup.movies.JdbcMovies;
-import com.codeup.movies.Movie;
-import com.codeup.movies.Movies;
+import com.codeup.movies.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ViewMovies {
-    private final MySQLConnection connection;
+    private final Movies movies;
+    private final Categories categories;
 
-    public ViewMovies(MySQLConnection connection) {
-        this.connection = connection;
+    public ViewMovies(Movies movies, Categories categories) {
+        this.movies = movies;
+        this.categories = categories;
     }
 
     public MoviesInformation view(String category) {
-        try {
-            Movies movies = new JdbcMovies(connection.connect());
-
-            return new MoviesInformation(
-                new JdbcCategories(connection.connect()).all(),
-                getMovies(movies, category)
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
-        return null;
+        return new MoviesInformation(
+            categories.all(),
+            getMovies(movies, category)
+        );
     }
 
-    private List<Movie> getMovies(
-        Movies movies,
-        String category
-    ) throws SQLException {
+    private List<Movie> getMovies(Movies movies, String category) {
         if (category != null && !category.isEmpty()) {
             return movies.inCategory(category);
-        } else {
-            return movies.all();
         }
+        return movies.all();
     }
 }

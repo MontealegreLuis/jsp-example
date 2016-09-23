@@ -5,7 +5,7 @@ package com.codeup.movies;
 
 import java.util.List;
 
-interface Categories {
+public interface Categories {
     List<Category> all();
     Category named(String name);
     void add(Category category);

@@ -3,25 +3,17 @@
  */
 package com.codeup.movies.actions;
 
-import com.codeup.db.MySQLConnection;
-import com.codeup.movies.JdbcMovies;
 import com.codeup.movies.Movie;
+import com.codeup.movies.Movies;
 
 public class ViewMovie {
-    private final MySQLConnection connection;
+    private final Movies movies;
 
-    public ViewMovie(MySQLConnection connection) {
-        this.connection = connection;
+    public ViewMovie(Movies movies) {
+        this.movies = movies;
     }
 
     public Movie view(int id) {
-        try {
-            return new JdbcMovies(connection.connect()).with(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
-        return null;
+        return movies.with(id);
     }
 }

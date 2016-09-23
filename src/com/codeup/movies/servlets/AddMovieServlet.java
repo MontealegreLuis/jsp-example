@@ -3,11 +3,8 @@
  */
 package com.codeup.movies.servlets;
 
-import com.codeup.db.MySQLConnection;
-import com.codeup.movies.JdbcCategories;
-import com.codeup.movies.JdbcMovies;
-import com.codeup.movies.Movie;
 import com.codeup.movies.actions.AddMovie;
+import com.codeup.movies.di.Container;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,15 +15,24 @@ import java.io.IOException;
 
 @WebServlet(name = "AddMovieServlet", urlPatterns = {"/movies/new"})
 public class AddMovieServlet extends HttpServlet {
+    private AddMovie action;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            action = Container.addMovie();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot initialize AddMovie action", e);
+        }
+    }
+
     protected void doPost(
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        AddMovie addMovie = new AddMovie(new MySQLConnection(
-            "root", "Codeup1!", "movies_db"
-        ));
 
-        addMovie.add(
+        action.add(
             request.getParameter("title"),
             Integer.parseInt(request.getParameter("rating")),
             request.getParameterValues("category[]")
@@ -39,14 +45,8 @@ public class AddMovieServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        AddMovie addMovie = new AddMovie(new MySQLConnection(
-            "root", "Codeup1!", "movies_db"
-        ));
 
-        request.setAttribute(
-            "categories",
-            addMovie.categories()
-        );
+        request.setAttribute("categories", action.categories());
 
         request
             .getRequestDispatcher("/WEB-INF/movies/new.jsp")
