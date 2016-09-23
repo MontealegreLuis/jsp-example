@@ -3,7 +3,7 @@
  */
 package com.codeup.auth.di;
 
-import com.codeup.auth.JdbcUsers;
+import com.codeup.auth.jdbc.JdbcUsers;
 import com.codeup.auth.Users;
 import com.codeup.auth.actions.AuthenticateUser;
 import com.codeup.db.di.DbContainer;

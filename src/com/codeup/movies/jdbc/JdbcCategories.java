@@ -1,7 +1,10 @@
 /**
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-package com.codeup.movies;
+package com.codeup.movies.jdbc;
+
+import com.codeup.movies.Categories;
+import com.codeup.movies.Category;
 
 import java.sql.*;
 

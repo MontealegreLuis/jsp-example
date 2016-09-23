@@ -5,8 +5,8 @@ package com.codeup.movies.di;
 
 import com.codeup.db.di.DbContainer;
 import com.codeup.movies.Categories;
-import com.codeup.movies.JdbcCategories;
-import com.codeup.movies.JdbcMovies;
+import com.codeup.movies.jdbc.JdbcCategories;
+import com.codeup.movies.jdbc.JdbcMovies;
 import com.codeup.movies.Movies;
 import com.codeup.movies.actions.AddMovie;
 import com.codeup.movies.actions.RateMovie;

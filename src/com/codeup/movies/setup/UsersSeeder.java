@@ -3,7 +3,7 @@
  */
 package com.codeup.movies.setup;
 
-import com.codeup.auth.JdbcUsers;
+import com.codeup.auth.jdbc.JdbcUsers;
 import com.codeup.auth.Password;
 import com.codeup.auth.User;
 

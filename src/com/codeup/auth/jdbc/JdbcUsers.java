@@ -1,11 +1,14 @@
 /**
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-package com.codeup.auth;
+package com.codeup.auth.jdbc;
+
+import com.codeup.auth.User;
+import com.codeup.auth.Users;
 
 import java.sql.*;
 
-public class JdbcUsers implements Users{
+public class JdbcUsers implements Users {
     private final Connection connection;
 
     public JdbcUsers(Connection connection) {

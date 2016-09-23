@@ -4,6 +4,8 @@
 package com.codeup.movies.setup;
 
 import com.codeup.movies.*;
+import com.codeup.movies.jdbc.JdbcCategories;
+import com.codeup.movies.jdbc.JdbcMovies;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -28,7 +28,7 @@ public class Movie {
         this.categories = categories;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,7 +56,7 @@ public class Movie {
         return categories;
     }
 
-    void addCategories(List<Category> categories) {
+    public void addCategories(List<Category> categories) {
         this.categories = categories;
     }
 }
