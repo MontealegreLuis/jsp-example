@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <jsp:include page="/WEB-INF/includes/head.jsp">
-        <jsp:param name="title" value="${requestScope.movie.title()}"/>
+        <jsp:param name="title" value="${movie.title()}"/>
     </jsp:include>
 </head>
 <body>
@@ -12,9 +12,14 @@
     <div class="row">
         <div class="col-md-8">
             <header class="page-header">
-                <h1>${requestScope.movie.title()}</h1>
+                <h1>${movie.title()}</h1>
             </header>
-            <p class="lead">Rating: <strong>${requestScope.movie.rating()}</strong></p>
+            <ul>
+                <c:forEach items="${movie.categories()}" var="category">
+                    <li>${category.name()}</li>
+                </c:forEach>
+            </ul>
+            <p class="lead">Rating: <strong>${movie.rating()}</strong></p>
         </div>
     </div>
 </div>

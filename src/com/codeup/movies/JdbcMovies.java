@@ -63,14 +63,39 @@ public class JdbcMovies implements Movies {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return new Movie(
+
+            return addCategoriesTo(new Movie(
                 resultSet.getInt("id"),
                 resultSet.getString("title"),
                 resultSet.getInt("rating")
-            );
+            ));
         } catch (SQLException e) {
             throw new RuntimeException("Cannot find movie", e);
         }
+    }
+
+    private Movie addCategoriesTo(Movie movie) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT c.* " +
+                    "FROM categories c " +
+                "INNER JOIN movies_categories mc ON mc.category_id = c.id  " +
+                "WHERE mc.movie_id = ?"
+            );
+            statement.setInt(1, movie.id());
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Category> categories = new ArrayList<>();
+            while (resultSet.next()) {
+                categories.add(new Category(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name")
+                ));
+            }
+            movie.addCategories(categories);
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot add categories to movie", e);
+        }
+        return movie;
     }
 
     @Override

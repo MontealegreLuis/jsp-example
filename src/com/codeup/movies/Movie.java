@@ -55,4 +55,8 @@ public class Movie {
     public List<Category> categories() {
         return categories;
     }
+
+    void addCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }
