@@ -15,7 +15,7 @@ import com.codeup.movies.actions.ViewMovies;
 
 import java.sql.SQLException;
 
-public class Container {
+public class MoviesContainer {
     private static AddMovie addMovie;
     private static RateMovie rateMovie;
     private static ViewMovie viewMovie;

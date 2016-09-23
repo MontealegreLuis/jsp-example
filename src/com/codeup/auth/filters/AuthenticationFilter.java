@@ -1,7 +1,7 @@
 /**
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-package com.codeup.movies.servlets;
+package com.codeup.auth.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -33,5 +33,4 @@ public class AuthenticationFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
 
     }
-
 }

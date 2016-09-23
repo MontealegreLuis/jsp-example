@@ -4,7 +4,7 @@
 package com.codeup.movies.servlets;
 
 import com.codeup.movies.actions.ViewMovie;
-import com.codeup.movies.di.Container;
+import com.codeup.movies.di.MoviesContainer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +21,7 @@ public class ViewMovieServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            action = Container.viewMovie();
+            action = MoviesContainer.viewMovie();
         } catch (Exception e) {
             throw new RuntimeException("Cannot initialize ViewMovie action.", e);
         }

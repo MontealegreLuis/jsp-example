@@ -42,9 +42,9 @@ public class JdbcUsers implements Users{
                     resultSet.getString("password")
                 );
             }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException("Cannot find user", e);
         }
-        return null;
     }
 }

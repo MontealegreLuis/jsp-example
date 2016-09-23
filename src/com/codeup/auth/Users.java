@@ -3,7 +3,7 @@
  */
 package com.codeup.auth;
 
-interface Users {
+public interface Users {
     void add(User user);
     User identifiedBy(String username);
 }

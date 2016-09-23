@@ -1,7 +1,7 @@
 /**
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-package com.codeup.movies.servlets;
+package com.codeup.auth.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
