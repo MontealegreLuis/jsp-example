@@ -4,14 +4,14 @@
 package com.codeup.auth.filters;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"RateMovieServlet", "AddMovieServlet"})
 public class AuthenticationFilter implements Filter {
+    private String redirectTo;
+
     public void doFilter(
         ServletRequest req,
         ServletResponse resp,
@@ -21,7 +21,7 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("user") == null) {
-            ((HttpServletResponse) resp).sendRedirect("/login");
+            ((HttpServletResponse) resp).sendRedirect(redirectTo);
         } else {
             chain.doFilter(req, resp);
         }
@@ -31,6 +31,6 @@ public class AuthenticationFilter implements Filter {
     }
 
     public void init(FilterConfig config) throws ServletException {
-
+        redirectTo = config.getInitParameter("redirectTo");
     }
 }

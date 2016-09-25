@@ -9,4 +9,17 @@
             <trim-directive-whitespaces>true</trim-directive-whitespaces>
         </jsp-property-group>
     </jsp-config>
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.codeup.auth.filters.AuthenticationFilter</filter-class>
+        <init-param>
+            <param-name>redirectTo</param-name>
+            <param-value>/login</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <servlet-name>RateMovieServlet</servlet-name>
+        <servlet-name>AddMovieServlet</servlet-name>
+    </filter-mapping>
 </web-app>
