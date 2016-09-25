@@ -6,20 +6,21 @@ package com.codeup.auth.servlets;
 import com.codeup.auth.actions.AuthenticateUser;
 import com.codeup.auth.di.AuthContainer;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "LoginServlet", urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
     private AuthenticateUser action;
+    private String homePage;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        homePage = config.getInitParameter("homePage");
         try {
             action = AuthContainer.authenticateUser();
         } catch (Exception e) {
@@ -40,7 +41,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         request.getSession().setAttribute("user", action.user());
-        response.sendRedirect("/movies");
+        response.sendRedirect(homePage);
     }
 
     protected void doGet(

@@ -9,6 +9,18 @@
             <trim-directive-whitespaces>true</trim-directive-whitespaces>
         </jsp-property-group>
     </jsp-config>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.codeup.auth.servlets.LoginServlet</servlet-class>
+        <init-param>
+            <param-name>homePage</param-name>
+            <param-value>/movies</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>com.codeup.auth.filters.AuthenticationFilter</filter-class>
