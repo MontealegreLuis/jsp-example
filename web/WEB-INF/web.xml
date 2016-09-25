@@ -21,6 +21,18 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.codeup.auth.servlets.LogoutServlet</servlet-class>
+        <init-param>
+            <param-name>logoutPage</param-name>
+            <param-value>/movies</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>com.codeup.auth.filters.AuthenticationFilter</filter-class>
