@@ -33,4 +33,52 @@ public class QueryBuilderTest {
         builder.select("username", "password").from("users");
         assertEquals("SELECT username, password FROM users", builder.toSQL());
     }
+
+    @Test
+    public void it_converts_to_sql_a_single_where_expression() {
+        builder.from("users").where("username = ?");
+        assertEquals("SELECT * FROM users WHERE username = ?", builder.toSQL());
+    }
+
+    @Test
+    public void it_converts_to_sql_several_and_where_expressions() {
+        builder
+            .from("users")
+            .where("username = ?")
+            .where("password = ?")
+            .where("name LIKE ?")
+        ;
+        assertEquals(
+            "SELECT * FROM users WHERE username = ? AND password = ? AND name LIKE ?",
+            builder.toSQL()
+        );
+    }
+
+    @Test
+    public void it_converts_to_sql_several_or_where_expressions() {
+        builder
+            .from("users")
+            .where("username = ?")
+            .orWhere("password = ?")
+            .orWhere("name LIKE ?")
+        ;
+        assertEquals(
+            "SELECT * FROM users WHERE username = ? OR password = ? OR name LIKE ?",
+            builder.toSQL()
+        );
+    }
+
+    @Test
+    public void it_converts_to_sql_a_combination_of_where_expressions() {
+        builder
+            .from("users")
+            .where("username = ?")
+            .orWhere("password = ?")
+            .where("name LIKE ?")
+        ;
+        assertEquals(
+            "SELECT * FROM users WHERE username = ? OR password = ? AND name LIKE ?",
+            builder.toSQL()
+        );
+    }
 }

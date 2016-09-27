@@ -9,9 +9,11 @@ import java.util.List;
 public class QueryBuilder implements HasSQLRepresentation {
     private List<String> select = null;
     private String table;
+    private List<WhereExpression> whereExpressions;
 
     public QueryBuilder() {
         select = new ArrayList<>();
+        whereExpressions = new ArrayList<>();
     }
 
     @Override
@@ -20,10 +22,21 @@ public class QueryBuilder implements HasSQLRepresentation {
             throw new IllegalStateException("No table to select from was specified");
         }
         return String.format(
-            "SELECT %s FROM %s",
+            "SELECT %s FROM %s%s",
             selectToString(),
-            table
+            table,
+            whereToString()
         );
+    }
+
+    private String whereToString() {
+        StringBuilder where = new StringBuilder();
+        whereExpressions
+            .forEach(expression -> where.append(expression.toSQL()).append(" "))
+        ;
+        return (whereExpressions.size() > 0 ? " WHERE " : "")
+            + where.toString().replaceAll(" $", "")
+        ;
     }
 
     private String selectToString() {
@@ -43,6 +56,24 @@ public class QueryBuilder implements HasSQLRepresentation {
     public QueryBuilder select(String ...columns) {
         for (String column : columns) {
             this.select.add(column);
+        }
+        return this;
+    }
+
+    public QueryBuilder where(String expression) {
+        if (whereExpressions.size() == 0) {
+            whereExpressions.add(WhereExpression.first(expression));
+        } else {
+            whereExpressions.add(WhereExpression.and(expression));
+        }
+        return this;
+    }
+
+    public QueryBuilder orWhere(String expression) {
+        if (whereExpressions.size() == 0) {
+            whereExpressions.add(WhereExpression.first(expression));
+        } else {
+            whereExpressions.add(WhereExpression.or(expression));
         }
         return this;
     }
