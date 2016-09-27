@@ -4,6 +4,7 @@
 package com.codeup.db;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +42,15 @@ public class QueryBuilder implements HasSQLRepresentation {
 
     public QueryBuilder where(String expression) {
         addWhere(expression, WhereExpression.Operator.AND);
+        return this;
+    }
+
+    public QueryBuilder whereIn(String column, int parametersCount) {
+        String[] parameters = new String[parametersCount];
+        Arrays.fill(parameters, "?");
+        addWhere(String.format(
+            "%s IN (%s)", column, String.join(", ", parameters)
+        ), null);
         return this;
     }
 

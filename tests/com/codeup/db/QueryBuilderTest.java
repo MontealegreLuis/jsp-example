@@ -81,4 +81,10 @@ public class QueryBuilderTest {
             builder.toSQL()
         );
     }
+
+    @Test
+    public void it_converts_to_sql_an_in_statement() {
+        builder.from("users").whereIn("username", 2);
+        assertEquals("SELECT * FROM users WHERE username IN (?, ?)", builder.toSQL());
+    }
 }

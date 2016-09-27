@@ -3,6 +3,7 @@
  */
 package com.codeup.movies.jdbc;
 
+import com.codeup.db.QueryBuilder;
 import com.codeup.movies.Categories;
 import com.codeup.movies.Category;
 
@@ -24,15 +25,11 @@ public class JdbcCategories implements Categories {
     public Category named(String name) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM categories WHERE name = ?"
+                new QueryBuilder().from("categories").where("name = ?").toSQL()
             );
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return new Category(
-                resultSet.getInt("id"),
-                resultSet.getString("name")
-            );
+            return populateCategories(resultSet).get(0);
         } catch (SQLException e) {
             throw new RuntimeException("Cannot retrieve category...", e);
         }
@@ -55,14 +52,11 @@ public class JdbcCategories implements Categories {
     @Override
     public List<Category> with(String... categories) {
         try {
-            StringBuilder parameters = new StringBuilder();
-            for (String __ : categories) {
-                parameters.append("?, ");
-            }
-            PreparedStatement statement = connection.prepareStatement(String.format(
-                "SELECT * FROM categories WHERE id IN (%s)",
-                parameters.toString().replaceAll(", $", "")
-            ));
+            QueryBuilder builder = new QueryBuilder()
+                .from("categories")
+                .whereIn("id", categories.length)
+            ;
+            PreparedStatement statement = connection.prepareStatement(builder.toSQL());
             for (int i = 0; i < categories.length; i++) {
                 statement.setInt(i + 1, parseInt(categories[i]));
             }
@@ -76,8 +70,9 @@ public class JdbcCategories implements Categories {
     @Override
     public List<Category> all() {
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM categories");
+            ResultSet resultSet = connection.createStatement().executeQuery(
+                new QueryBuilder().from("categories").toSQL()
+            );
             return populateCategories(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException("Cannot retrieve the categories", e);
