@@ -7,23 +7,15 @@ public class WhereExpression implements HasSQLRepresentation {
 
     private final String expression;
     private final Operator operator;
-    private enum Operator {AND, OR};
+    enum Operator {AND, OR};
 
-    public static WhereExpression first(String expression) {
-        return new WhereExpression(expression, null);
+    public static WhereExpression with(String expression, Operator operator) {
+        return new WhereExpression(expression, operator);
     }
 
     private WhereExpression(String expression, Operator operator) {
         this.expression = expression;
         this.operator = operator;
-    }
-
-    public static WhereExpression or(String expression) {
-        return new WhereExpression(expression, Operator.OR);
-    }
-
-    public static WhereExpression and(String expression) {
-        return new WhereExpression(expression, Operator.AND);
     }
 
     @Override

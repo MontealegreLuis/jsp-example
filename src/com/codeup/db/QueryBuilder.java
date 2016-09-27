@@ -4,10 +4,11 @@
 package com.codeup.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QueryBuilder implements HasSQLRepresentation {
-    private List<String> select = null;
+    private List<String> select;
     private String table;
     private List<WhereExpression> whereExpressions;
 
@@ -18,15 +19,47 @@ public class QueryBuilder implements HasSQLRepresentation {
 
     @Override
     public String toSQL() {
-        if (table == null) {
-            throw new IllegalStateException("No table to select from was specified");
-        }
+        assertFromHasBeenCalled();
+
         return String.format(
             "SELECT %s FROM %s%s",
             selectToString(),
             table,
             whereToString()
         );
+    }
+
+    public QueryBuilder from(String table) {
+        this.table = table;
+        return this;
+    }
+
+    public QueryBuilder select(String ...columns) {
+        Collections.addAll(this.select, columns);
+        return this;
+    }
+
+    public QueryBuilder where(String expression) {
+        addWhere(expression, WhereExpression.Operator.AND);
+        return this;
+    }
+
+    public QueryBuilder orWhere(String expression) {
+        addWhere(expression, WhereExpression.Operator.OR);
+        return this;
+    }
+
+    private void addWhere(String expression, WhereExpression.Operator operator) {
+        if (whereExpressions.size() == 0) {
+            operator = null;
+        }
+        whereExpressions.add(WhereExpression.with(expression, operator));
+    }
+
+    private void assertFromHasBeenCalled() {
+        if (table == null) {
+            throw new IllegalStateException("No table to select from was specified");
+        }
     }
 
     private String whereToString() {
@@ -46,35 +79,5 @@ public class QueryBuilder implements HasSQLRepresentation {
         }
         select.forEach(column -> columns.append(column).append(", "));
         return columns.toString().replaceAll(", $", "");
-    }
-
-    public QueryBuilder from(String table) {
-        this.table = table;
-        return this;
-    }
-
-    public QueryBuilder select(String ...columns) {
-        for (String column : columns) {
-            this.select.add(column);
-        }
-        return this;
-    }
-
-    public QueryBuilder where(String expression) {
-        if (whereExpressions.size() == 0) {
-            whereExpressions.add(WhereExpression.first(expression));
-        } else {
-            whereExpressions.add(WhereExpression.and(expression));
-        }
-        return this;
-    }
-
-    public QueryBuilder orWhere(String expression) {
-        if (whereExpressions.size() == 0) {
-            whereExpressions.add(WhereExpression.first(expression));
-        } else {
-            whereExpressions.add(WhereExpression.or(expression));
-        }
-        return this;
     }
 }
